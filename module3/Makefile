@@ -1,2 +1,2 @@
-all: assignment.cu
-	gcc assignment.cu -o assignment.exe
+all: assignment.c
+	gcc assignment.c -o assignment.exe
