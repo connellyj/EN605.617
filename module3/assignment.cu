@@ -85,9 +85,9 @@ int main(int argc, char** argv)
 	}
 
 	// Allocate memory on gpu
-	int* a = nullptr;
-	int* b = nullptr;
-	int* result = nullptr;
+	int* a;
+	int* b;
+	int* result;
 	cudaMalloc((void**)&a, arraySize);
 	cudaMalloc((void**)&b, arraySize);
 	cudaMalloc((void**)&result, arraySize);
