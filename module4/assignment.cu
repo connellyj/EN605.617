@@ -285,7 +285,7 @@ void cipher_cpu_test(const int n, const int offset, const int display_flag)
 int main(int argc, char** argv)
 {
 	const int offset = 3;
-	const int block_size = 256;
+	const int block_size = 1024;
 
 	// Read command line arguments
 	int total_threads = (1 << 20);
