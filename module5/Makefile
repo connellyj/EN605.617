@@ -1,2 +1,2 @@
 all:
-	nvcc assignment.cu -o assignment
+	nvcc assignment.cu -o assignment -std=c++11
