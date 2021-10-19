@@ -149,6 +149,8 @@ void baseline_test(const int n, const int num_threads, const int num_blocks, con
 	cudaFreeHost(a);
 	cudaFreeHost(b);
 	cudaFreeHost(r);
+	cudaEventDestroy(start);
+	cudaEventDestroy(stop);
 }
 
 void stream_test(const int n, const int num_threads, const int num_blocks, const int display_flag)
@@ -204,6 +206,8 @@ void stream_test(const int n, const int num_threads, const int num_blocks, const
 	cudaFreeHost(a);
 	cudaFreeHost(b);
 	cudaFreeHost(r);
+	cudaEventDestroy(start);
+	cudaEventDestroy(stop);
 }
 
 int main(int argc, char** argv)
