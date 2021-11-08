@@ -71,9 +71,13 @@ void check_status(nvgraphStatus_t status)
 
 void donvgraph()
 {
+    const size_t  n = 6, nnz = 10, vertex_numsets = 3, edge_numsets = 1;
+    const float alpha1 = 0.85, alpha2 = 0.90;
+    const void* alpha1_p = (const void*)&alpha1, * alpha2_p = (const void*)&alpha2;
+
     // Allocate host data
     cudaDataType_t edge_dimT = CUDA_R_32F;
-    destination_offsets_h = (int*)malloc((n + 1) * sizeof(int));
+    int* destination_offsets_h = (int*)malloc((n + 1) * sizeof(int));
     int* source_indices_h = (int*)malloc(nnz * sizeof(int));
     float* weights_h = (float*)malloc(nnz * sizeof(float));
     float* bookmark_h = (float*)malloc(n * sizeof(float));
@@ -130,9 +134,6 @@ void donvgraph()
     check_status(nvgraphCreate(&handle));
     check_status(nvgraphCreateGraphDescr(handle, &graph));
 
-    const size_t  n = 6, nnz = 10, vertex_numsets = 3, edge_numsets = 1;
-    const float alpha1 = 0.85, alpha2 = 0.90;
-    const void* alpha1_p = (const void*)&alpha1, * alpha2_p = (const void*)&alpha2;
     CSC_input->nvertices = n;
     CSC_input->nedges = nnz;
     CSC_input->destination_offsets = destination_offsets_h;
