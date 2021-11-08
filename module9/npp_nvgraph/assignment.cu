@@ -1,7 +1,7 @@
-#include "../common/UtilNPP/Exceptions.h"
-#include "../common/UtilNPP/ImageIO.h"
-#include "../common/UtilNPP/ImagesCPU.h"
-#include "../common/UtilNPP/ImagesNPP.h"
+#include <Exceptions.h>
+#include <ImageIO.h>
+#include <ImagesCPU.h>
+#include <ImagesNPP.h>
 
 #include <chrono>
 #include <string.h>
