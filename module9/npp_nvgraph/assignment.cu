@@ -188,7 +188,7 @@ int main(int argc, char *argv[])
     auto start = std::chrono::high_resolution_clock::now();
     donpp();
     auto stop = std::chrono::high_resolution_clock::now();
-    std::cout << "  npp: " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count() << " microseconds\n";
+    std::cout << "  npp: " << std::chrono::duration_cast<std::chrono::microseconds>(stop - start).count() << " microseconds\n\n\n";
 
     start = std::chrono::high_resolution_clock::now();
     donvgraph();
