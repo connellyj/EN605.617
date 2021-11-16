@@ -47,7 +47,7 @@ cl_context CreateContext()
     errNum = clGetPlatformIDs(1, &firstPlatformId, &numPlatforms);
     if (errNum != CL_SUCCESS || numPlatforms <= 0)
     {
-        std::cout << "Failed to find any OpenCL platforms." << std::endl;
+        printf("Failed to find any OpenCL platforms.\n");
         return NULL;
     }
 
@@ -64,12 +64,12 @@ cl_context CreateContext()
                                       NULL, NULL, &errNum);
     if (errNum != CL_SUCCESS)
     {
-        std::cout << "Could not create GPU context, trying CPU..." << std::endl;
+        printf("Could not create GPU context, trying CPU...\n");
         context = clCreateContextFromType(contextProperties, CL_DEVICE_TYPE_CPU,
                                           NULL, NULL, &errNum);
         if (errNum != CL_SUCCESS)
         {
-            std::cout << "Failed to create an OpenCL GPU or CPU context." << std::endl;
+            printf("Failed to create an OpenCL GPU or CPU context.\n");
             return NULL;
         }
     }
@@ -92,13 +92,13 @@ cl_command_queue CreateCommandQueue(cl_context context, cl_device_id *device)
     errNum = clGetContextInfo(context, CL_CONTEXT_DEVICES, 0, NULL, &deviceBufferSize);
     if (errNum != CL_SUCCESS)
     {
-        std::cout << "Failed call to clGetContextInfo(...,GL_CONTEXT_DEVICES,...)";
+        printf("Failed call to clGetContextInfo(...,GL_CONTEXT_DEVICES,...)\n");
         return NULL;
     }
 
     if (deviceBufferSize <= 0)
     {
-        std::cout << "No devices available.";
+        printf("No devices available.\n");
         return NULL;
     }
 
@@ -108,7 +108,7 @@ cl_command_queue CreateCommandQueue(cl_context context, cl_device_id *device)
     if (errNum != CL_SUCCESS)
     {
         delete [] devices;
-        std::cout << "Failed to get device IDs";
+        printf("Failed to get device IDs\n");
         return NULL;
     }
 
@@ -119,7 +119,7 @@ cl_command_queue CreateCommandQueue(cl_context context, cl_device_id *device)
     if (commandQueue == NULL)
     {
         delete [] devices;
-        std::cout << "Failed to create commandQueue for device 0";
+        printf("Failed to create commandQueue for device 0\n");
         return NULL;
     }
 
@@ -139,7 +139,7 @@ cl_program CreateProgram(cl_context context, cl_device_id device, const char* fi
     std::ifstream kernelFile(fileName, std::ios::in);
     if (!kernelFile.is_open())
     {
-        std::cout << "Failed to open file for reading: " << fileName << std::endl;
+        printf("Failed to open file for reading: %s\n", fileName);
         return NULL;
     }
 
@@ -153,7 +153,7 @@ cl_program CreateProgram(cl_context context, cl_device_id device, const char* fi
                                         NULL, NULL);
     if (program == NULL)
     {
-        std::cout << "Failed to create CL program from source." << std::endl;
+        printf("Failed to create CL program from source.\n");
         return NULL;
     }
 
@@ -165,8 +165,7 @@ cl_program CreateProgram(cl_context context, cl_device_id device, const char* fi
         clGetProgramBuildInfo(program, device, CL_PROGRAM_BUILD_LOG,
                               sizeof(buildLog), buildLog, NULL);
 
-        std::cout << "Error in kernel: " << std::endl;
-        std::cout << buildLog;
+        printf("Error in kernel\n");
         clReleaseProgram(program);
         return NULL;
     }
@@ -191,7 +190,7 @@ bool CreateMemObjects(cl_context context, cl_mem memObjects[3],
 
     if (memObjects[0] == NULL || memObjects[1] == NULL || memObjects[2] == NULL)
     {
-        std::cout << "Error creating memory objects." << std::endl;
+        printf("Error creating memory objects.\n");
         return false;
     }
 
@@ -226,7 +225,7 @@ int ExecuteKernel(const cl_program program, const cl_command_queue commandQueue,
     cl_kernel kernel = clCreateKernel(program, kernelName, NULL);
     if (kernel == NULL)
     {
-        std::cout << "Failed to create kernel: " << kernelName << std::endl;
+        printf("Failed to create kernel: %s\n", kernelName);
         return 1;
     }
 
@@ -237,7 +236,7 @@ int ExecuteKernel(const cl_program program, const cl_command_queue commandQueue,
     errNum |= clSetKernelArg(kernel, 2, sizeof(cl_mem), &memObjects[2]);
     if (errNum != CL_SUCCESS)
     {
-        std::cout << "Error setting kernel arguments: " << kernelName << std::endl;
+        printf("Error setting kernel arguments: %s\n", kernelName);
         clReleaseKernel(kernel);
         return 1;
     }
@@ -250,7 +249,7 @@ int ExecuteKernel(const cl_program program, const cl_command_queue commandQueue,
     errNum = clEnqueueNDRangeKernel(commandQueue, kernel, 1, NULL, globalWorkSize, localWorkSize, 0, NULL, &event);
     if (errNum != CL_SUCCESS)
     {
-        std::cout << "Error queuing kernel for execution: " << kernelName << std::endl;
+        printf("Error queuing kernel for execution: %s\n", kernelName);
         clReleaseKernel(kernel);
         return 1;
     }
@@ -262,7 +261,7 @@ int ExecuteKernel(const cl_program program, const cl_command_queue commandQueue,
         0, NULL, NULL);
     if (errNum != CL_SUCCESS)
     {
-        std::cout << "Error reading result buffer: " << kernelName << std::endl;
+        printf("Error reading result buffer: %s\n", kernelName);
         clReleaseKernel(kernel);
         return 1;
     }
@@ -270,9 +269,9 @@ int ExecuteKernel(const cl_program program, const cl_command_queue commandQueue,
     // Output the result buffer
     for (int i = 0; i < 10; i++)
     {
-        std::cout << result[i] << " ";
+        printf("%d ", result[i]);
     }
-    std::cout << "..." << std::endl;
+    printf("...\n");
 
     clWaitForEvents(1, &event);
     cl_ulong time_start;
@@ -301,7 +300,7 @@ int main(int argc, char** argv)
     context = CreateContext();
     if (context == NULL)
     {
-        std::cout << "Failed to create OpenCL context." << std::endl;
+        printf("Failed to create OpenCL context.\n");
         return 1;
     }
 
