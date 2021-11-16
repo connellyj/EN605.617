@@ -1,2 +1,2 @@
 all: 
-	g++ assignment.cpp -lOpenCL -o assignment
+	gcc assignment.cpp -lOpenCL -I /usr/local/cuda/include -o assignment
