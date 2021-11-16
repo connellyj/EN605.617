@@ -269,7 +269,7 @@ int ExecuteKernel(const cl_program program, const cl_command_queue commandQueue,
     // Output the result buffer
     for (int i = 0; i < 10; i++)
     {
-        printf("%d ", result[i]);
+        printf("%f ", result[i]);
     }
     printf("...\n");
 
