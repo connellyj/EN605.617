@@ -381,7 +381,7 @@ int main(int argc, char** argv)
             return 1;
         }
 
-        const auto start = std::chrono::high_resolution_clock::now();
+        const std::chrono::time_point<std::chrono::high_resolution_clock> start = std::chrono::high_resolution_clock::now();
 
         // Execute all math kernels
         const int numKernels = 5;
@@ -396,7 +396,7 @@ int main(int argc, char** argv)
         if (bflag && result == 0)
         {
             clEnqueueBarrier(commandQueue);
-            const auto end = std::chrono::high_resolution_clock::now();
+            const std::chrono::time_point<std::chrono::high_resolution_clock> end = std::chrono::high_resolution_clock::now();
             std::cout << "all kernels, system time: " << std::chrono::duration_cast<std::chrono::microseconds>(end - start).count() << " microseconds\n";
         }
 
